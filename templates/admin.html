@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #444;
+            margin: 20px 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .visit {
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+
+        .visit b {
+            display: inline-block;
+            width: 120px;
+            color: #555;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+        }
+
+        .btn-logout:hover {
+            background-color: #c82333;
+        }
+
+        .btn-refresh {
+            background-color: #28a745;
+        }
+
+        .btn-refresh:hover {
+            background-color: #218838;
+        }
+
+        .total-visits {
+            margin: 20px 0;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Visit History</h1>
+        <div class="total-visits">
+            <strong>Total Visits:</strong> {{ total_visits }}
+        </div>
+        <div class="visits-container">
+            {% for visit in visits %}
+                <div class="visit">
+                    <p><b>Date:</b> {{ visit.date }}</p>
+					<p><b>Time:</b> {{ visit.time }}</p>
+                    <p><b>IP Address:</b> {{ visit.ip_address }}</p>
+                    <p><b>User-Agent:</b> {{ visit.user_agent }}</p>
+                    <p><b>QR Value:</b> {{ visit.qr_value }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <a class="btn btn-refresh" href="#" onclick="refreshPage()">Refresh</a>
+        <a class="btn" href="{{ url_for('clear_database') }}?key=HSXEezgATXjcjXR9D9dWWFpjawDdun1gSGAuBhjAqvxh9cjp1g3Fkj3Rg8vJAaHD" target="_blank" onclick="clearDatabase(event)">Clear Database</a>
+        <a class="btn btn-logout" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <script>
+        function clearDatabase(event) {
+            event.preventDefault();
+            if (confirm('Are you sure you want to clear the database?')) {
+                fetch('{{ url_for('clear_database') }}?key=HSXEezgATXjcjXR9D9dWWFpjawDdun1gSGAuBhjAqvxh9cjp1g3Fkj3Rg8vJAaHD', {
+                    method: 'GET',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Database cleared successfully');
+                        window.location.reload();
+                    } else {
+                        alert('Failed to clear the database');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error clearing the database');
+                });
+            }
+        }
+
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
