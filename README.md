@@ -31,4 +31,14 @@ To run this program, you'll need to install Flask, Python 3.8, Flask-SQLAlchemy,
 
 ## Help
 
-If the page won't load, make sure the application is in debug mode. Check that line 99 in app.py looks like this: "app.run(debug=True, host='0.0.0.0')".
+Page Not Loading?
+
+If you're having trouble loading the page, ensure the application is running in debug mode. Verify that line 99 in app.py is set as follows:
+
+    app.run(debug=True, host='0.0.0.0')
+
+Deploying the Application?
+
+For deployment, make sure the application is behind a WSGI server and reverse proxy. In this case, line 99 in app.py should be updated to:
+
+    app.run()
