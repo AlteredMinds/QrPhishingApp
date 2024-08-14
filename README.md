@@ -44,7 +44,9 @@ To run this project locally, follow these steps:
 4. **Run the Application**  
    Start the application by navigating to the directory containing app.py and running:
    ```bash
-   python3 app.py 
+   python3 app.py
+
+The application will be accessible at http://127.0.0.1:5000.   
 
 ## Help
 
