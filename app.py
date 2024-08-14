@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from markupsafe import escape
 import re
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.secret_key = "HSXEezgATXjcjXR9D9dWWFpjawDdun1gSGAuBhjAqvxh9cjp1g3Fkj3Rg8vJAaHD"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///visits.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -19,6 +19,11 @@ class Visit(db.Model):
     user_agent = db.Column(db.String(255))
     qr_value = db.Column(db.String(3))
 
+def is_valid_qr(qr_value):
+    with open('valid_qr.txt', 'r') as file:
+        valid_qrs = file.read().splitlines()
+    return qr_value in valid_qrs    
+
 
 @app.route('/', methods=['GET'])
 def record_visit():
@@ -28,8 +33,8 @@ def record_visit():
     time_str = current_time.strftime("%I:%M %p")
     qr = escape(request.args.get('id'))
     
-    if not re.match("^[0-9]*$", qr):
-        abort(406)    
+    if not is_valid_qr(qr):
+        abort(406)     
 
     new_visit = Visit(
         ip_address=request.headers.get('X-Forwarded-For', request.remote_addr).split(':')[0],
@@ -64,7 +69,7 @@ def admin_page():
         else:
             return render_template('login.html', error='Invalid username or password')
     else:
-        return render_template('login.html')
+        return render_template('login.html', error='')
         
 @app.route('/logout')
 def logout():
@@ -89,7 +94,7 @@ def clear_database():
         db.drop_all()
         return ('Database cleared successfully')
     except Exception as e:
-        return ('Database is empty')
+        return ('Failed to clear the database')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run()

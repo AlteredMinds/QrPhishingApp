@@ -31,6 +31,13 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+		
+		.container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 20px;
+        }
 
         p {
             color: #666;
@@ -69,6 +76,7 @@
 </head>
 <body>
     <div class="container">
+		<img src="{{ url_for('static', filename='images/qrcode.jpg') }}" alt="Hackers QR Code">
         <h1>Uh Oh, you could have been hacked!</h1>
         <p>Fortunately, this is just an educational campaign intended to raise awareness about the risks associated with scanning QR codes. Click below to learn how to protect yourself from QR code scams:</p>
         <a href="https://consumer.ftc.gov/consumer-alerts/2023/12/scammers-hide-harmful-links-qr-codes-steal-your-information" class="button">Learn More About QR Code Phishing</a>
