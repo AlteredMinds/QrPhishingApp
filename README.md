@@ -1,33 +1,50 @@
 # QR Code Phishing Campaign Experiment
 
-A web application designed to track user interactions with QR codes.
+A web application designed to track user interactions with QR codes for educational and research purposes.
 
-## Description
+## Overview
 
-This project is an experiment in creating a phishing campaign using QR codes as the entry point. The web application, built using Flask and Python 3.8, tracks user visits by recording their IP address, date, time, user agent string, and the value of the scanned QR code.
+This project is an experiment in creating a phishing campaign using QR codes as the entry point. The web application is built with Flask and Python 3.8 and is designed to record user interactions by logging details such as IP addresses, date and time of visits, user agent strings, and the specific QR code scanned.
 
-The application features two routes:
+## Features
 
-    /: This route handles GET requests and records user visits to the site if the scanned QR code is valid. It checks against a list of known valid QR codes stored in 'valid_qr.txt'. If the QR code is invalid, it returns a 406 Not Acceptable error.
+The application provides the following key features:
 
-    '/adminportal': This route is protected by a login form that requires a specific username and password combination to access the admin portal. If the credentials are correct, the user can view all recorded visits and the total number of visits.
+- **User Tracking**: Records details of each visit, including IP address, date, time, user agent, and QR code value.
+- **QR Code Validation**: Validates scanned QR codes against a list of pre-approved codes stored in `valid_qr.txt`.
+- **Admin Portal**: A protected route that allows authorized users to view all recorded visits and the total number of visits.
+- **Database Management**: Provides maintenance routes for clearing the database and managing user sessions.
 
-Additionally, there are two maintenance routes:
+### Routes
 
-    '/clear_database': This route allows an administrator (identified by a secret key) to delete the entire contents of the database.
+1. **`/` (Root Route)**  
+   Handles GET requests to record user visits when a valid QR code is scanned. If the QR code is invalid, a 406 Not Acceptable error is returned.
 
-    '/logout': This route logs out the currently logged-in user.
+2. **`/adminportal`**  
+   A protected route requiring a specific username and password to access the admin portal. Once logged in, users can view a summary of all recorded visits.
 
-## Getting Started
+3. **`/clear_database`**  
+   Allows an administrator, identified by a secret key, to delete all records from the database.
 
-To run this program, you'll need to install Flask, Python 3.8, Flask-SQLAlchemy, and markupsafe. After installing these dependencies, navigate to the directory containing the app.py file in your command prompt or terminal and execute python3 app.py. Navigate to http://127.0.0.1:5000.
+4. **`/logout`**  
+   Logs out the currently logged-in admin user, ending the session.
 
-### Dependencies
+## Installation
 
-* Flask
-* Python 3.8
-* Flask-SQLAlchemy
-* markupsafe
+To run this project locally, follow these steps:
+
+1. **Clone the Repository**  
+   ```bash
+   git clone https://github.com/AlteredMinds/QrPhishingApp.git
+   cd QrPhishingApp
+2. **Install Dependencies**
+   Ensure you have Python 3.8 installed, then install the required packages:
+   ```bash
+   pip install Flask Flask-SQLAlchemy markupsafe
+4. **Run the Application**  
+   Start the application by navigating to the directory containing app.py and running:
+   ```bash
+   python3 app.py 
 
 ## Help
 
